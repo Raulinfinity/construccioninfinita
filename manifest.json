@@ -1,27 +1,24 @@
 {
   "name": "Cotizador Construcción Infinita",
   "short_name": "Cotizador",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#B7D1DB",
-  "theme_color": "#B7D1DB",
-  "orientation": "portrait-primary",
   "description": "Cotizador premium de construcción para proyectos residenciales y comerciales.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#d0e7ff",
+  "theme_color": "#d0e7ff",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     }
-  ],
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  }
+  ]
 }
