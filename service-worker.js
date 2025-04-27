@@ -1,11 +1,18 @@
 self.addEventListener('install', function(event) {
-  console.log('Service Worker instalado correctamente.');
+  console.log('Service Worker instalado.');
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', function(event) {
-  console.log('Service Worker activado y listo para controlar la app.');
+  console.log('Service Worker activado.');
+  return self.clients.claim();
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log('Interceptando solicitud a:', event.request.url);
+  event.respondWith(
+    caches.match(event.request)
+      .then(function(response) {
+        return response || fetch(event.request);
+      })
+  );
 });
