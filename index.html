@@ -1,163 +1,144 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cotizador Construcción Infinita</title>
-  <link rel="manifest" href="manifest.json">
-
+  <link rel="manifest" href="manifesto.json">
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #d4e6f1, #aed6f1); /* Fondo azul claro */
-      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #d0e7ff, #ffffff);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
     }
-
     .container {
-      background: rgba(255, 255, 255, 0.85);
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      width: 90%;
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
       max-width: 400px;
-      text-align: center;
     }
-
     h1 {
-      font-size: 24px;
-      color: #154360;
-      margin-bottom: 20px;
+      text-align: center;
+      color: #0077cc;
     }
-
     label {
       display: block;
-      text-align: left;
-      margin: 10px 0 5px;
-      color: #1b4f72;
+      margin-top: 10px;
+      margin-bottom: 5px;
       font-weight: bold;
     }
-
     select, input {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
+      padding: 8px;
+      margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 16px;
     }
-
     button {
       width: 100%;
-      padding: 12px;
-      background-color: #3498db;
+      padding: 10px;
+      background-color: #0077cc;
+      color: white;
       border: none;
       border-radius: 8px;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
+      font-size: 16px;
     }
-
     button:hover {
-      background-color: #2e86c1;
+      background-color: #005fa3;
     }
-
-    .resultados {
+    #resultados {
       margin-top: 20px;
-      text-align: left;
-      color: #154360;
+      text-align: center;
     }
   </style>
-
 </head>
 <body>
-
   <div class="container">
-    <h1>Costo de Construcción</h1>
+    <h1>Cotizador</h1><label for="estado">Estado:</label>
+<select id="estado" onchange="cargarCiudades()">
+  <option value="">Selecciona un estado</option>
+  <option value="CDMX">Ciudad de México</option>
+  <option value="Jalisco">Jalisco</option>
+  <option value="Nuevo León">Nuevo León</option>
+</select>
 
-    <form id="cotizador-form">
-      <label for="estado">Estado</label>
-      <select id="estado" required>
-        <option value="">Selecciona un estado</option>
-        <option value="Ciudad de México">Ciudad de México</option>
-        <option value="Jalisco">Jalisco</option>
-        <option value="Nuevo León">Nuevo León</option>
-        <!-- Agrega más estados si quieres -->
-      </select>
+<label for="ciudad">Ciudad:</label>
+<select id="ciudad">
+  <option value="">Selecciona una ciudad</option>
+</select>
 
-      <label for="ciudad">Ciudad</label>
-      <select id="ciudad" required>
-        <option value="">Selecciona una ciudad</option>
-        <option value="Ciudad de México">Ciudad de México</option>
-        <option value="Guadalajara">Guadalajara</option>
-        <option value="Monterrey">Monterrey</option>
-        <!-- Agrega más ciudades si quieres -->
-      </select>
+<label for="cuartos">Número de cuartos:</label>
+<input type="number" id="cuartos" min="1" value="1">
 
-      <label for="cuartos">Número de cuartos</label>
-      <input type="number" id="cuartos" min="1" value="1" required>
+<label for="material">Material de construcción:</label>
+<select id="material">
+  <option value="ladrillo">Ladrillo</option>
+  <option value="block">Block</option>
+  <option value="tablaroca">Tablaroca</option>
+</select>
 
-      <label for="material">Material de construcción</label>
-      <select id="material" required>
-        <option value="">Selecciona un material</option>
-        <option value="Ladrillo">Ladrillo</option>
-        <option value="Concreto">Concreto</option>
-        <option value="Madera">Madera</option>
-        <!-- Agrega más materiales si quieres -->
-      </select>
+<button onclick="calcularCosto()">Calcular</button>
 
-      <button type="submit">Calcular</button>
-    </form>
+<div id="resultados"></div>
 
-    <div class="resultados" id="resultados"></div>
-  </div>
+  </div>  <script>
+    function cargarCiudades() {
+      const estado = document.getElementById('estado').value;
+      const ciudad = document.getElementById('ciudad');
+      ciudad.innerHTML = '<option value="">Selecciona una ciudad</option>';
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(function(registration) {
-          console.log('Service Worker registrado con éxito:', registration.scope);
-        })
-        .catch(function(error) {
-          console.log('Error al registrar el Service Worker:', error);
+      const ciudadesPorEstado = {
+        "CDMX": ["Coyoacán", "Iztapalapa", "Miguel Hidalgo"],
+        "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque"],
+        "Nuevo León": ["Monterrey", "San Pedro", "Apodaca"]
+      };
+
+      if (ciudadesPorEstado[estado]) {
+        ciudadesPorEstado[estado].forEach(function(ciudadNombre) {
+          const option = document.createElement('option');
+          option.value = ciudadNombre;
+          option.text = ciudadNombre;
+          ciudad.add(option);
         });
+      }
     }
-
-    document.getElementById('cotizador-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      calcularCosto();
-    });
 
     function calcularCosto() {
       const estado = document.getElementById('estado').value;
       const ciudad = document.getElementById('ciudad').value;
-      const cuartos = parseInt(document.getElementById('cuartos').value, 10);
+      const cuartos = document.getElementById('cuartos').value;
       const material = document.getElementById('material').value;
 
-      if (!estado || !ciudad || !cuartos || !material) {
-        alert('Por favor, completa todos los campos.');
-        return;
-      }
-
       let precioBase = 10000;
-      let costoMaterial = material === 'Ladrillo' ? 5000 : material === 'Concreto' ? 8000 : 3000;
-      let total = (precioBase + costoMaterial) * cuartos;
+      let costoMaterial = material === 'ladrillo' ? 2000 : material === 'block' ? 1500 : 1200;
+      let total = precioBase * cuartos + costoMaterial * cuartos;
 
       document.getElementById('resultados').innerHTML = `
         <h3>Resultados:</h3>
         <p><strong>Estado:</strong> ${estado}</p>
         <p><strong>Ciudad:</strong> ${ciudad}</p>
-        <p><strong>Material:</strong> ${material}</p>
         <p><strong>Cuartos:</strong> ${cuartos}</p>
-        <p><strong>Costo Total:</strong> $${total.toLocaleString()}</p>
+        <p><strong>Material:</strong> ${material}</p>
+        <p><strong>Costo total estimado:</strong> $${total}</p>
       `;
     }
-  </script>
 
-</body>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(registration) {
+          console.log('Service Worker registrado con éxito:', registration);
+        })
+        .catch(function(error) {
+          console.log('Error al registrar el Service Worker:', error);
+        });
+    }
+  </script></body>
 </html>
