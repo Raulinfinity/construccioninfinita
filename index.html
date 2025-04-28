@@ -4,113 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cotizador Construcción Infinita</title>
-  <link rel="manifest" href="manifesto.json">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom right, #d0e7ff, #ffffff);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 420px;
-    }
-    h1, h3 {
-      text-align: center;
-      color: #003366;
-    }
-    select, input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #3399ff;
-      color: white;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #007acc;
-    }
-    #premiumOptions {
-      display: none;
-      margin-top: 20px;
-    }
-    #resultados {
-      margin-top: 20px;
-      color: #333;
-    }
-  </style>
+  <link rel="manifest" href="manifiesto.json">
 </head>
 <body>
+  <h1>Cotizador de Construcción Infinita</h1>
+  
+  <form id="cotizador">
+    <label for="estado">Estado:</label>
+    <select id="estado" name="estado" required></select>
 
-<div class="container">
-  <h1>Cotizador de Construcción</h1>
+    <label for="ciudad">Ciudad:</label>
+    <select id="ciudad" name="ciudad" required></select>
 
-  <select id="estado" onchange="cargarCiudades()">
-    <option value="">Seleccione un estado</option>
-  </select>
+    <label for="cuartos">Número de cuartos:</label>
+    <input type="number" id="cuartos" name="cuartos" min="1" required>
 
-  <select id="ciudad" onchange="mostrarPrecios()">
-    <option value="">Seleccione una ciudad</option>
-  </select>
-
-  <div id="precios"></div>
-
-  <input type="number" id="cuartos" placeholder="Número de cuartos">
-
-  <select id="material">
-    <option value="Ladrillo">Ladrillo rojo</option>
-    <option value="Block">Block gris</option>
-    <option value="Concreto">Concreto</option>
-    <option value="Tablaroca">Tablaroca</option>
-    <option value="Block térmico">Block térmico</option>
-  </select>
-
-  <label><input type="checkbox" id="activarPremium" onchange="activarPremium()"> ¿Deseas activar acabados premium? (Costo: $34.99 MXN/mes)</label>
-
-  <div id="premiumOptions">
-    <select id="piso">
-      <option value="">Tipo de piso</option>
-      <option value="Vitropiso">Vitropiso</option>
-      <option value="Porcelanato">Porcelanato</option>
-      <option value="Mármol">Mármol</option>
-    </select>
-
-    <select id="ventanas">
-      <option value="">Tipo de ventanas</option>
-      <option value="Aluminio">Aluminio</option>
-      <option value="PVC">PVC</option>
-      <option value="Vidrio doble">Vidrio doble</option>
-    </select>
-
-    <select id="techos">
-      <option value="">Tipo de techo</option>
-      <option value="Losa normal">Losa normal</option>
-      <option value="Techumbre reforzada">Techumbre reforzada</option>
-    </select>
-  </div>
-
-  <button onclick="calcular()">Calcular</button>
+    <button type="submit">Calcular</button>
+  </form>
 
   <div id="resultados"></div>
-</div>
 
-<script src="datos-estados-ciudades.js"></script>
-<script src="funciones-cotizador.js"></script>
-
+  <script src="datos-estados-ciudades.js"></script>
+  <script src="funciones-cotizador.js"></script>
 </body>
 </html>
