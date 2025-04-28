@@ -1,87 +1,47 @@
-function cargarCiudades() {
-  const estadoSelect = document.getElementById('estado');
-  const ciudadSelect = document.getElementById('ciudad');
-  const estado = estadoSelect.value;
+document.addEventListener("DOMContentLoaded", () => {
+  const estadoSelect = document.getElementById("estado");
+  const ciudadSelect = document.getElementById("ciudad");
+  const formulario = document.getElementById("cotizador");
+  const resultadosDiv = document.getElementById("resultados");
 
-  ciudadSelect.innerHTML = '<option value="">Seleccione una ciudad</option>';
+  // Llenar estados
+  for (let estado in estadosCiudades) {
+    const option = document.createElement("option");
+    option.value = estado;
+    option.textContent = estado;
+    estadoSelect.appendChild(option);
+  }
 
-  if (estado && datosEstadosCiudades[estado]) {
-    datosEstadosCiudades[estado].ciudades.forEach(ciudad => {
-      const option = document.createElement('option');
+  // Cuando seleccionen un estado
+  estadoSelect.addEventListener("change", () => {
+    ciudadSelect.innerHTML = "";
+    const ciudades = estadosCiudades[estadoSelect.value];
+    ciudades.forEach(ciudad => {
+      const option = document.createElement("option");
       option.value = ciudad;
       option.textContent = ciudad;
       ciudadSelect.appendChild(option);
     });
-  }
-}
+  });
 
-function mostrarPrecios() {
-  const estado = document.getElementById('estado').value;
-  const preciosDiv = document.getElementById('precios');
+  // Cálculo
+  formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const estado = estadoSelect.value;
+    const ciudad = ciudadSelect.value;
+    const cuartos = parseInt(document.getElementById("cuartos").value);
 
-  if (estado && datosEstadosCiudades[estado]) {
-    const precios = datosEstadosCiudades[estado].precios;
-    preciosDiv.innerHTML = `
-      <h3>Precios de construcción:</h3>
-      <p><strong>Estándar:</strong> $${precios.estandar} MXN/m²</p>
-      <p><strong>Medio:</strong> $${precios.medio} MXN/m²</p>
-      <p><strong>Premium:</strong> $${precios.premium} MXN/m²</p>
+    // Precios simulados
+    const precios = [15000, 18000, 21000];
+
+    resultadosDiv.innerHTML = `
+      <h2>Resultados:</h2>
+      <p><strong>Estado:</strong> ${estado}</p>
+      <p><strong>Ciudad:</strong> ${ciudad}</p>
+      <p><strong>Número de cuartos:</strong> ${cuartos}</p>
+      <p><strong>Precio Estándar:</strong> $${precios[0] * cuartos} MXN</p>
+      <p><strong>Precio Plus:</strong> $${precios[1] * cuartos} MXN</p>
+      <p><strong>Precio Premium:</strong> $${precios[2] * cuartos} MXN</p>
     `;
-  } else {
-    preciosDiv.innerHTML = "";
-  }
-}
-
-function activarPremium() {
-  const premiumCheckbox = document.getElementById('activarPremium');
-  const premiumOptions = document.getElementById('premiumOptions');
-
-  if (premiumCheckbox.checked) {
-    premiumOptions.style.display = 'block';
-  } else {
-    premiumOptions.style.display = 'none';
-  }
-}
-
-function calcular() {
-  const estado = document.getElementById('estado').value;
-  const ciudad = document.getElementById('ciudad').value;
-  const cuartos = parseInt(document.getElementById('cuartos').value);
-  const material = document.getElementById('material').value;
-  const precios = datosEstadosCiudades[estado]?.precios;
-  const premiumActivo = document.getElementById('activarPremium').checked;
-
-  if (!estado || !ciudad || !cuartos || cuartos <= 0) {
-    alert('Por favor complete todos los campos correctamente.');
-    return;
-  }
-
-  let precioPorMetro = precios.estandar;
-  if (premiumActivo) {
-    precioPorMetro = precios.premium;
-  }
-
-  const costoBase = precioPorMetro * cuartos * 15; // Aproximado: 15m² por cuarto
-
-  let costoAcabados = 0;
-  if (premiumActivo) {
-    const piso = document.getElementById('piso').value;
-    const ventanas = document.getElementById('ventanas').value;
-    const techos = document.getElementById('techos').value;
-
-    if (piso) costoAcabados += 5000;
-    if (ventanas) costoAcabados += 7000;
-    if (techos) costoAcabados += 8000;
-  }
-
-  const total = costoBase + costoAcabados;
-
-  document.getElementById('resultados').innerHTML = `
-    <h3>Resultados:</h3>
-    <p><strong>Estado:</strong> ${estado}</p>
-    <p><strong>Ciudad:</strong> ${ciudad}</p>
-    <p><strong>Material:</strong> ${material}</p>
-    <p><strong>Cuartos:</strong> ${cuartos}</p>
-    <p><strong>Total estimado:</strong> $${total.toLocaleString()} MXN</p>
-  `;
-}
+  });
+});
