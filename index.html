@@ -1,30 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cotizador Construcción Infinita</title>
-  <link rel="manifest" href="manifiesto.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construcción Infinita</title>
+    <link rel="manifest" href="manifesto.json"> <!-- Enlace correcto al manifiesto -->
+    <link rel="icon" href="icono-192x192.png" type="image/png"> <!-- Icono para pestaña navegador -->
+    <meta name="theme-color" content="#d0e7ff"> <!-- Color de la barra de navegación -->
 </head>
 <body>
-  <h1>Cotizador de Construcción Infinita</h1>
-  
-  <form id="cotizador">
-    <label for="estado">Estado:</label>
-    <select id="estado" name="estado" required></select>
+    <h1>¡Hola Raúl, tu app está lista!</h1>
 
-    <label for="ciudad">Ciudad:</label>
-    <select id="ciudad" name="ciudad" required></select>
+    <!-- Aquí iría el resto del contenido de tu app como formulario, precios, cotizador, etc. -->
 
-    <label for="cuartos">Número de cuartos:</label>
-    <input type="number" id="cuartos" name="cuartos" min="1" required>
-
-    <button type="submit">Calcular</button>
-  </form>
-
-  <div id="resultados"></div>
-
-  <script src="datos-estados-ciudades.js"></script>
-  <script src="funciones-cotizador.js"></script>
+    <script src="datos-estados-ciudades.js"></script>
+    <script src="funciones-cotizador.js"></script>
 </body>
 </html>
