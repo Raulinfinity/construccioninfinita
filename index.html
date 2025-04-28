@@ -1,19 +1,28 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Construcción Infinita</title>
-    <link rel="manifest" href="manifesto.json"> <!-- Enlace correcto al manifiesto -->
-    <link rel="icon" href="icono-192x192.png" type="image/png"> <!-- Icono para pestaña navegador -->
-    <meta name="theme-color" content="#d0e7ff"> <!-- Color de la barra de navegación -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Construcción Infinita</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icono-192x192.png" sizes="192x192">
+  <link rel="icon" href="icono-512x512.png" sizes="512x512">
+  <meta name="theme-color" content="#d0e7ff">
 </head>
 <body>
-    <h1>¡Hola Raúl, tu app está lista!</h1>
+  <h1>Bienvenido a Construcción Infinita</h1>
+  <p>Cotiza el costo de construcción de tu casa o negocio en segundos, fácil y rápido.</p>  <form id="cotizador-form">
+    <label for="estado">Selecciona un estado:</label>
+    <select id="estado"></select><label for="ciudad">Selecciona una ciudad:</label>
+<select id="ciudad"></select>
 
-    <!-- Aquí iría el resto del contenido de tu app como formulario, precios, cotizador, etc. -->
+<label for="acabado">Tipo de acabado:</label>
+<select id="acabado">
+  <option value="estandar">Estándar</option>
+  <option value="premium">Premium</option>
+  <option value="lujo">Lujo</option>
+</select>
 
-    <script src="datos-estados-ciudades.js"></script>
-    <script src="funciones-cotizador.js"></script>
-</body>
+<button type="submit">Cotizar</button>
+
+  </form>  <div id="resultado"></div>  <script src="datos-estados-ciudades.js"></script>  <script src="funciones-cotizador.js"></script>  <script src="service-worker.js"></script></body>
 </html>
