@@ -1,12 +1,12 @@
 {
-  "name": "Cotizador Construcción Infinita",
+  "name": "Cotizador premium de Construcción Infinita",
   "short_name": "Construcción Infinita",
-  "lang": "es-MX",
   "start_url": "/",
   "display": "standalone",
-  "scope": "/",
   "background_color": "#d0e7ff",
   "theme_color": "#d0e7ff",
+  "orientation": "portrait",
+  "lang": "es",
   "description": "Cotiza el costo de construcción de tu casa o negocio en segundos, fácil y rápido.",
   "icons": [
     {
@@ -25,16 +25,13 @@
   "screenshots": [
     {
       "src": "screenshot1.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "label": "Cotiza construcción fácilmente"
+      "sizes": "540x960",
+      "type": "image/png"
     },
     {
       "src": "screenshot2.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "label": "Selecciona estado y ciudad"
+      "sizes": "540x960",
+      "type": "image/png"
     }
-  ],
-  "id": "/"
+  ]
 }
