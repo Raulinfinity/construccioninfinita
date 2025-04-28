@@ -1,12 +1,12 @@
 {
   "name": "Cotizador Construcción Infinita",
-  "short_name": "Construcción Infinita",
+  "short_name": "Construcción",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#d0e7ff",
   "theme_color": "#d0e7ff",
   "orientation": "portrait",
-  "description": "Cotizador premium de construcción para proyectos residenciales y comerciales.",
+  "description": "Cotizador premium de construcción para proyectos residenciales y comerciales",
   "icons": [
     {
       "src": "icono-192x192.png",
