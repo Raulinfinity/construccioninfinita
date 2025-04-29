@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotizador Premium</title>
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="manifest" href="manifest.json">
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <div class="cotizador-container">
+    <h1>Bienvenido, <span id="nombre-usuario">Usuario</span></h1>
+    <button id="logout-btn">Cerrar sesión</button><h2>Cotizador por Región</h2>
+<form id="formulario-cotizador">
+  <label for="estado">Estado:</label>
+  <select id="estado" required></select>
+
+  <label for="ciudad">Ciudad:</label>
+  <select id="ciudad" required></select>
+
+  <label for="cuartos">Número de cuartos:</label>
+  <input type="number" id="cuartos" min="1" required>
+
+  <label for="material">Material:</label>
+  <select id="material" required>
+    <option value="block">Block</option>
+    <option value="ladrillo">Ladrillo</option>
+    <option value="tablaroca">Tablaroca</option>
+  </select>
+
+  <label for="techo">Tipo de techo:</label>
+  <select id="techo" required>
+    <option value="losacero">Losacero</option>
+    <option value="lamina">Lámina</option>
+    <option value="bovedilla">Bovedilla</option>
+  </select>
+
+  <h3>Opciones Premium</h3>
+
+  <label for="acabado">Tipo de acabado:</label>
+  <select id="acabado">
+    <option value="sencillo">Sencillo</option>
+    <option value="intermedio">Intermedio</option>
+    <option value="lujo">De lujo</option>
+  </select>
+
+  <label for="ventanas">Ventanas:</label>
+  <select id="ventanas">
+    <option value="aluminio">Aluminio</option>
+    <option value="madera">Madera</option>
+    <option value="pvc">PVC</option>
+  </select>
+
+  <label for="pintura">Tipo de pintura:</label>
+  <select id="pintura">
+    <option value="vinilica">Vinílica</option>
+    <option value="acrilica">Acrílica</option>
+    <option value="texturizada">Texturizada</option>
+  </select>
+
+  <button type="submit">Calcular</button>
+</form>
+
+<div id="resultado"></div>
+
+  </div>  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+    import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCj-tFpa5bOyezBhDk0UHePFa5Lnl8HbUM",
+      authDomain: "cotizadorpremium-89a90.firebaseapp.com",
+      projectId: "cotizadorpremium-89a90",
+      storageBucket: "cotizadorpremium-89a90.appspot.com",
+      messagingSenderId: "385182373419",
+      appId: "1:385182373419:web:3124c3e00b8f275f59d246"
+    };
+
+    const estadosCiudades = {
+      "Ciudad de México": ["Coyoacán", "Iztapalapa", "Tlalpan"],
+      "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque"],
+      "Nuevo León": ["Monterrey", "San Nicolás", "Apodaca"],
+      "Puebla": ["Puebla", "Tehuacán", "Atlixco"],
+      "Yucatán": ["Mérida", "Valladolid", "Progreso"]
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const nombreUsuario = document.getElementById('nombre-usuario');
+    const logoutBtn = document.getElementById('logout-btn');
+    const estadoSelect = document.getElementById('estado');
+    const ciudadSelect = document.getElementById('ciudad');
+    const resultadoDiv = document.getElementById('resultado');
+    const formulario = document.getElementById('formulario-cotizador');
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        nombreUsuario.textContent = user.email;
+      } else {
+        window.location.href = 'index.html';
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.href = 'index.html';
+    });
+
+    Object.keys(estadosCiudades).forEach(estado => {
+      const option = document.createElement('option');
+      option.value = estado;
+      option.textContent = estado;
+      estadoSelect.appendChild(option);
+    });
+
+    estadoSelect.addEventListener('change', () => {
+      ciudadSelect.innerHTML = '';
+      const ciudades = estadosCiudades[estadoSelect.value];
+      ciudades.forEach(ciudad => {
+        const option = document.createElement('option');
+        option.value = ciudad;
+        option.textContent = ciudad;
+        ciudadSelect.appendChild(option);
+      });
+    });
+
+    formulario.addEventListener('submit', async e => {
+      e.preventDefault();
+      const datos = {
+        estado: estadoSelect.value,
+        ciudad: ciudadSelect.value,
+        cuartos: parseInt(document.getElementById('cuartos').value),
+        material: document.getElementById('material').value,
+        techo: document.getElementById('techo').value,
+        acabado: document.getElementById('acabado').value,
+        ventanas: document.getElementById('ventanas').value,
+        pintura: document.getElementById('pintura').value
+      };
+
+      const costoBase = datos.cuartos * 20000;
+      const extra = {
+        sencillo: 10000,
+        intermedio: 20000,
+        lujo: 30000
+      }[datos.acabado] + {
+        aluminio: 5000,
+        madera: 10000,
+        pvc: 15000
+      }[datos.ventanas] + {
+        vinilica: 3000,
+        acrilica: 5000,
+        texturizada: 8000
+      }[datos.pintura];
+
+      const total = costoBase + extra;
+      resultadoDiv.textContent = `Costo estimado: $${total.toLocaleString()}`;
+
+      if (auth.currentUser) {
+        await setDoc(doc(db, "historial", `${auth.currentUser.uid}_${Date.now()}`), {
+          ...datos,
+          total,
+          fecha: new Date().toISOString()
+        });
+      }
+    });
+  </script></body>
+</html>
