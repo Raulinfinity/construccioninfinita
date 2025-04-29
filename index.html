@@ -1,18 +1,24 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Cotizador Premium</title>
+  <title>Construcción Infinita - Cotizador</title>
   <link rel="stylesheet" href="style.css">
-  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
 </head>
-<body><div class="login-container">
+<body>
+
+<div class="login-container">
   <h1>Iniciar Sesión</h1>
   <input type="email" id="email" placeholder="Correo electrónico">
   <input type="password" id="password" placeholder="Contraseña">
   <button id="login-btn">Iniciar Sesión</button>
   <p>¿No tienes cuenta? <a href="#" id="show-register">Regístrate aquí</a></p>
-</div><div class="register-container" style="display:none;">
+</div>
+
+<div class="register-container" style="display:none;">
   <h1>Registrarse</h1>
   <input type="text" id="nombre" placeholder="Nombre">
   <input type="tel" id="telefono" placeholder="Teléfono">
@@ -20,9 +26,46 @@
   <input type="password" id="register-password" placeholder="Contraseña">
   <button id="register-btn">Crear Cuenta</button>
   <p>¿Ya tienes cuenta? <a href="#" id="show-login">Inicia sesión</a></p>
-</div><script type="module">
+</div>
+
+<div id="cotizador-container" style="display:none; margin-top: 20px;">
+  <h1>Cotizador por Región</h1>
+  <form id="cotizador-form">
+    <label for="estado">Estado:</label>
+    <select id="estado" required></select>
+
+    <label for="ciudad">Ciudad:</label>
+    <select id="ciudad" required></select>
+
+    <label for="cuartos">Número de cuartos:</label>
+    <input type="number" id="cuartos" min="1" required>
+
+    <label for="material">Material:</label>
+    <select id="material" required>
+      <option value="block">Block</option>
+      <option value="ladrillo">Ladrillo</option>
+      <option value="tablaroca">Tablaroca</option>
+    </select>
+
+    <label for="techo">Tipo de techo:</label>
+    <select id="techo" required>
+      <option value="losacero">Losacero</option>
+      <option value="lamina">Lámina</option>
+      <option value="bovedilla">Bovedilla</option>
+    </select>
+
+    <button type="submit">Calcular</button>
+  </form>
+
+  <div id="precios" style="margin-top:20px;"></div>
+  <div id="resultado" style="margin-top:20px; font-weight:bold;"></div>
+
+  <button id="logout-btn" style="margin-top:30px;">Cerrar Sesión</button>
+</div>
+
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCj-tFpa5bOyezBhDk0UHePFa5Lnl8HbUM",
@@ -38,6 +81,7 @@
 
   const loginContainer = document.querySelector('.login-container');
   const registerContainer = document.querySelector('.register-container');
+  const cotizadorContainer = document.getElementById('cotizador-container');
 
   document.getElementById('show-register').addEventListener('click', () => {
     loginContainer.style.display = 'none';
@@ -52,8 +96,6 @@
   document.getElementById('register-btn').addEventListener('click', async () => {
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
-    const nombre = document.getElementById('nombre').value;
-    const telefono = document.getElementById('telefono').value;
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -71,10 +113,84 @@
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "cotizador.html";
+      loginContainer.style.display = 'none';
+      cotizadorContainer.style.display = 'block';
     } catch (error) {
       alert('Error al iniciar sesión: ' + error.message);
     }
   });
-</script></body>
+
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      cotizadorContainer.style.display = 'none';
+      loginContainer.style.display = 'block';
+    } catch (error) {
+      alert('Error al cerrar sesión: ' + error.message);
+    }
+  });
+
+  const estadosCiudades = {
+    "Coahuila": ["Saltillo", "Torreón", "Monclova"],
+    "CDMX": ["Coyoacán", "Benito Juárez", "Iztapalapa"],
+    "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque"]
+  };
+
+  const preciosPorCiudad = {
+    "Saltillo": [3500, 5000, 6500],
+    "Torreón": [3200, 4700, 6100],
+    "Monclova": [3000, 4500, 5900],
+    "Coyoacán": [5000, 7500, 9500],
+    "Benito Juárez": [5200, 7700, 9800],
+    "Iztapalapa": [4000, 6000, 8500],
+    "Guadalajara": [4500, 7000, 9000],
+    "Zapopan": [4600, 7200, 9100],
+    "Tlaquepaque": [4300, 6800, 8800]
+  };
+
+  const estadoSelect = document.getElementById("estado");
+  const ciudadSelect = document.getElementById("ciudad");
+  const preciosDiv = document.getElementById("precios");
+
+  for (const estado in estadosCiudades) {
+    const option = document.createElement("option");
+    option.value = estado;
+    option.textContent = estado;
+    estadoSelect.appendChild(option);
+  }
+
+  estadoSelect.addEventListener("change", () => {
+    ciudadSelect.innerHTML = "";
+    const ciudades = estadosCiudades[estadoSelect.value];
+    ciudades.forEach(ciudad => {
+      const option = document.createElement("option");
+      option.value = ciudad;
+      option.textContent = ciudad;
+      ciudadSelect.appendChild(option);
+    });
+  });
+
+  estadoSelect.dispatchEvent(new Event("change"));
+
+  document.getElementById('cotizador-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ciudad = ciudadSelect.value;
+    const cuartos = parseInt(document.getElementById("cuartos").value);
+    const [precioBajo, precioMedio, precioAlto] = preciosPorCiudad[ciudad];
+
+    preciosDiv.innerHTML = `
+      <h3>Precios por m² en ${ciudad}:</h3>
+      <ul>
+        <li>Económico: $${precioBajo} MXN</li>
+        <li>Estándar: $${precioMedio} MXN</li>
+        <li>Premium: $${precioAlto} MXN</li>
+      </ul>
+    `;
+
+    const precioFinal = cuartos * precioMedio * 10;
+    document.getElementById("resultado").innerText = `Costo estimado: $${precioFinal.toLocaleString()} MXN`;
+  });
+</script>
+
+</body>
 </html>
