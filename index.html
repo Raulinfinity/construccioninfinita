@@ -8,36 +8,34 @@
 </head>
 <body>
 
-  <div class="background"></div>
-
-  <div class="container">
-    <h1>Construcción Infinita</h1>
-
-    <div id="form-buttons">
-      <button onclick="showLogin()">Iniciar sesión</button>
-      <button onclick="showRegister()">Registrarme</button>
-    </div>
-
-    <form id="login-form" class="hidden">
-      <h2>Iniciar sesión</h2>
-      <input type="email" placeholder="Correo electrónico" required>
-      <input type="password" placeholder="Contraseña" required>
-      <button type="submit">Entrar</button>
-      <p onclick="showFormButtons()" class="link">¿No tienes cuenta? Registrate aquí</p>
-    </form>
-
-    <form id="register-form" class="hidden">
-      <h2>Registro</h2>
-      <input type="text" placeholder="Nombre completo" required>
-      <input type="tel" placeholder="Número de teléfono" required>
-      <input type="email" placeholder="Correo electrónico" required>
-      <input type="password" placeholder="Contraseña" required>
-      <input type="password" placeholder="Confirmar contraseña" required>
-      <button type="submit">Crear cuenta</button>
-      <p onclick="showFormButtons()" class="link">¿Ya tienes cuenta? Inicia sesión</p>
-    </form>
+  <div id="login-container">
+    <h2>Iniciar Sesión</h2>
+    <input type="email" id="login-email" placeholder="Correo electrónico">
+    <input type="password" id="login-password" placeholder="Contraseña">
+    <button onclick="iniciarSesion()">Iniciar Sesión</button>
+    <p>¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Regístrate aquí</a></p>
   </div>
 
-  <script src="app.js"></script>
+  <div id="registro-container" style="display: none;">
+    <h2>Registro</h2>
+    <input type="text" id="registro-usuario" placeholder="Nombre de usuario">
+    <input type="text" id="registro-telefono" placeholder="Teléfono">
+    <input type="email" id="registro-email" placeholder="Correo electrónico">
+    <input type="password" id="registro-password" placeholder="Contraseña">
+    <button onclick="registrarUsuario()">Registrar</button>
+    <p>¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Inicia sesión</a></p>
+  </div>
+
+  <div id="app-container" style="display: none;">
+    <h2>Bienvenido a Construcción Infinita</h2>
+    <p id="user-info"></p>
+    <button onclick="cerrarSesion()">Cerrar Sesión</button>
+    <!-- Aquí puedes agregar más funcionalidades como cotizador, membresías, etc. -->
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="funciones-cotizador.js"></script>
 </body>
 </html>
