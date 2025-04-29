@@ -1,90 +1,27 @@
-/* Estilo General */
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to right, #1e3c72, #2a5298);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+/* Reset y estructura base */
 
-/* Contenedores principales */
-.login-container,
-.register-container,
-#cotizador-container {
-  background: #ffffff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-}
+{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-/* Títulos */
-h1, h2, h3 {
-  color: #1e3c72;
-}
 
-/* Inputs */
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type="tel"],
-select {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #cccccc;
-  border-radius: 8px;
-  font-size: 16px;
-}
+body { background: linear-gradient(to bottom, #d0e7ff, #ffffff); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
 
-/* Botones */
-button {
-  width: 95%;
-  padding: 10px;
-  margin-top: 15px;
-  background-color: #2a5298;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+/* Contenedores generales */ .login-container, .register-container, .cotizador-container { background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 420px; }
 
-button:hover {
-  background-color: #1e3c72;
-}
+h1, h2, h3 { margin-bottom: 20px; color: #0b3d91; text-align: center; }
 
-/* Enlaces */
-a {
-  color: #2a5298;
-  text-decoration: none;
-}
+label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
 
-a:hover {
-  text-decoration: underline;
-}
+input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
 
-/* Precios */
-#precios ul {
-  list-style: none;
-  padding: 0;
-}
+button { width: 100%; padding: 12px; background-color: #0078d7; color: #fff; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease; }
 
-#precios li {
-  background-color: #f4f4f4;
-  margin: 5px 0;
-  padding: 8px;
-  border-radius: 8px;
-}
+button:hover { background-color: #005fa3; }
 
-/* Resultado del cotizador */
-#resultado {
-  font-size: 18px;
-  color: #1e3c72;
-}
+p { margin-top: 10px; text-align: center; font-size: 14px; }
+
+p a { color: #0078d7; text-decoration: none; }
+
+p a:hover { text-decoration: underline; }
+
+#resultado { margin-top: 20px; font-weight: bold; color: #1a1a1a; font-size: 18px; text-align: center; }
+
