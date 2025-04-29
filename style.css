@@ -1,66 +1,90 @@
-/* Fondo general */
-body, html {
-  height: 100%;
+/* Estilo General */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #d0e7ff, #a0c4ff);
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-/* Contenedor principal */
-#login-container, #registro-container, #app-container {
-  background: rgba(0, 0, 0, 0.7);
+/* Contenedores principales */
+.login-container,
+.register-container,
+#cotizador-container {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   width: 90%;
   max-width: 400px;
-  margin: 5% auto;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   text-align: center;
-  color: white;
 }
 
 /* Títulos */
-h2 {
-  margin-bottom: 20px;
+h1, h2, h3 {
+  color: #1e3c72;
 }
 
 /* Inputs */
-input {
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="tel"],
+select {
   width: 90%;
-  margin: 10px 0;
   padding: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
+  margin: 10px 0;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
 /* Botones */
 button {
   width: 95%;
+  padding: 10px;
   margin-top: 15px;
-  padding: 12px;
-  background-color: #4f8ef7;
+  background-color: #2a5298;
+  color: white;
   border: none;
   border-radius: 8px;
-  color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #3c6dc5;
+  background-color: #1e3c72;
 }
 
 /* Enlaces */
-p a {
-  color: #b0d4ff;
-  text-decoration: underline;
-  font-size: 14px;
+a {
+  color: #2a5298;
+  text-decoration: none;
 }
 
-/* Mensaje de bienvenida */
-#user-info {
-  margin: 20px 0;
+a:hover {
+  text-decoration: underline;
+}
+
+/* Precios */
+#precios ul {
+  list-style: none;
+  padding: 0;
+}
+
+#precios li {
+  background-color: #f4f4f4;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+/* Resultado del cotizador */
+#resultado {
   font-size: 18px;
+  color: #1e3c72;
 }
