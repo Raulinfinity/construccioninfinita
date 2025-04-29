@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Construcción Infinita - Cotizador</title>
+  <link rel="stylesheet" href="estilo.css" />
+  <link rel="manifest" href="manifiesto.json" />
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+</head>
+<body>
+  <div class="contenedor-inicio">
+    <h1>Iniciar sesión</h1>
+    <input type="email" id="email" placeholder="Correo electrónico" required />
+    <input type="password" id="password" placeholder="Contraseña" required />
+    <button id="login-btn">Iniciar sesión</button>
+    <p>¿No tienes cuenta? <a href="#" id="mostrar-registro">Regístrate aquí</a></p>
+  </div>  <div class="contenedor-registro" style="display:none;">
+    <h1>Registrarse</h1>
+    <input type="text" id="nombre" placeholder="Nombre" required />
+    <input type="tel" id="telefono" placeholder="Teléfono" required />
+    <input type="email" id="register-email" placeholder="Correo electrónico" required />
+    <input type="password" id="register-password" placeholder="Contraseña" required />
+    <button id="register-btn">Crear Cuenta</button>
+    <p>¿Ya tienes cuenta? <a href="#" id="mostrar-inicio">Inicia sesión</a></p>
+  </div>  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCj-tFpa5bOyezBhDk0UHePFa5Lnl8HbUM",
+      authDomain: "cotizadorpremium-89a90.firebaseapp.com",
+      projectId: "cotizadorpremium-89a90",
+      storageBucket: "cotizadorpremium-89a90.appspot.com",
+      messagingSenderId: "385182373419",
+      appId: "1:385182373419:web:3124c3e00b8f275f59d246"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginContainer = document.querySelector('.contenedor-inicio');
+    const registerContainer = document.querySelector('.contenedor-registro');
+
+    document.getElementById('mostrar-registro').addEventListener('click', () => {
+      loginContainer.style.display = 'none';
+      registerContainer.style.display = 'block';
+    });
+
+    document.getElementById('mostrar-inicio').addEventListener('click', () => {
+      registerContainer.style.display = 'none';
+      loginContainer.style.display = 'block';
+    });
+
+    document.getElementById('register-btn').addEventListener('click', async () => {
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert('Cuenta creada correctamente. Inicia sesión.');
+        registerContainer.style.display = 'none';
+        loginContainer.style.display = 'block';
+      } catch (error) {
+        alert('Error al registrar: ' + error.message);
+      }
+    });
+
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "cotizador.html";
+      } catch (error) {
+        alert('Error al iniciar sesión: ' + error.message);
+      }
+    });
+  </script></body>
+</html>
