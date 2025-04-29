@@ -1,28 +1,43 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Construcción Infinita</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icono-192x192.png" sizes="192x192">
-  <link rel="icon" href="icono-512x512.png" sizes="512x512">
-  <meta name="theme-color" content="#d0e7ff">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Bienvenido a Construcción Infinita</h1>
-  <p>Cotiza el costo de construcción de tu casa o negocio en segundos, fácil y rápido.</p>  <form id="cotizador-form">
-    <label for="estado">Selecciona un estado:</label>
-    <select id="estado"></select><label for="ciudad">Selecciona una ciudad:</label>
-<select id="ciudad"></select>
 
-<label for="acabado">Tipo de acabado:</label>
-<select id="acabado">
-  <option value="estandar">Estándar</option>
-  <option value="premium">Premium</option>
-  <option value="lujo">Lujo</option>
-</select>
+  <div class="background"></div>
 
-<button type="submit">Cotizar</button>
+  <div class="container">
+    <h1>Construcción Infinita</h1>
 
-  </form>  <div id="resultado"></div>  <script src="datos-estados-ciudades.js"></script>  <script src="funciones-cotizador.js"></script>  <script src="service-worker.js"></script></body>
+    <div id="form-buttons">
+      <button onclick="showLogin()">Iniciar sesión</button>
+      <button onclick="showRegister()">Registrarme</button>
+    </div>
+
+    <form id="login-form" class="hidden">
+      <h2>Iniciar sesión</h2>
+      <input type="email" placeholder="Correo electrónico" required>
+      <input type="password" placeholder="Contraseña" required>
+      <button type="submit">Entrar</button>
+      <p onclick="showFormButtons()" class="link">¿No tienes cuenta? Registrate aquí</p>
+    </form>
+
+    <form id="register-form" class="hidden">
+      <h2>Registro</h2>
+      <input type="text" placeholder="Nombre completo" required>
+      <input type="tel" placeholder="Número de teléfono" required>
+      <input type="email" placeholder="Correo electrónico" required>
+      <input type="password" placeholder="Contraseña" required>
+      <input type="password" placeholder="Confirmar contraseña" required>
+      <button type="submit">Crear cuenta</button>
+      <p onclick="showFormButtons()" class="link">¿Ya tienes cuenta? Inicia sesión</p>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
 </html>
